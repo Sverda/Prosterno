@@ -5,11 +5,59 @@
 
 Board::Board()
 {
-	for (int i = 0; i < BOARD_ROWS; i++)
+	//Startowe rozmieszczenie pionkow na planszy
+	for (int row = 0; row < BOARD_ROWS; row++)
 	{
-		for (int j = 0; j < BOARD_COLS; j++)
+		for (int col = 0; col < BOARD_COLS; col++)
 		{
-			board[i][j] = Field::Empty;
+			if (row == 0)
+			{
+				if (col%2 == 1)
+				{
+					board[row][col] = Field::Enemy;
+				}
+				else
+				{
+					board[row][col] = Field::Empty;
+				}
+			}
+			else if (row == 1)
+			{
+				if (col % 2 == 0)
+				{
+					board[row][col] = Field::Enemy;
+				}
+				else
+				{
+					board[row][col] = Field::Empty;
+				}
+			}
+			else if (row == 6)
+			{
+				if (col % 2 == 0)
+				{
+					board[row][col] = Field::Friend;
+				}
+				else
+				{
+					board[row][col] = Field::Empty;
+				}
+			}
+			else if (row == 7)
+			{
+				if (col % 2 == 1)
+				{
+					board[row][col] = Field::Friend;
+				}
+				else
+				{
+					board[row][col] = Field::Empty;
+				}
+			}
+			else
+			{
+				board[row][col] = Field::Empty;
+			}
 		}
 	}
 }
@@ -40,18 +88,7 @@ void Board::PrintBoard()
 		//Pole gry
 		for (int j = 0; j < BOARD_COLS; j++)
 		{
-			if (board[i][j] == Field::Empty)
-			{
-				printf("%2c", Field::Empty);
-			}
-			else if (board[i][j] == Field::Friend)
-			{
-				printf("%2c", Field::Friend);
-			}
-			else if (board[i][j] == Field::Enemy)
-			{
-				printf("%2c", Field::Enemy);
-			}
+			printf("%2c", board[i][j]);
 		}
 		// Prawe cyfry pomocnicze
 		printf("%4d\n", verticalNumber++);
