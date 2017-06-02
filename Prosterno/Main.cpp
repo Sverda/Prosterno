@@ -1,9 +1,8 @@
 #include<cstdio>
-#include"Board.h"
+#include"Game.h"
 
 int main()
 {
-	Board board;
-	board.PrintInstruction();
-	board.PrintBoard();
+	Game game;
+	game.PlayRound();
 }

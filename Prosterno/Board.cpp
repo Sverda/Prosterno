@@ -1,8 +1,6 @@
 #include "Board.h"
 #include<cstdio>
 
-
-
 Board::Board()
 {
 	//Startowe rozmieszczenie pionkow na planszy
@@ -104,10 +102,10 @@ void Board::PrintBoard()
 	printf("\n\n");
 }
 
-void Board::PrintInstruction()
+bool Board::InputChange(BoardChange& change)
 {
-	/*printf("Gra polega na dostaniu sie swoim pionkiem do\n");
-	printf("drugiego kranca planszy. \n");*/
-	printf("Twoje pionki (lub I gracza) sa oznaczone jako: P\n");
-	printf("Pionki przeciwnika (lub II gracza) natomiast jako: W\n\n");
+	if (board[change.prevRow][change.prevCol] == change.player)
+	{
+		//TODO: Sprawdzenie, czy mo¿na przesun¹æ pionek. 
+	}
 }
