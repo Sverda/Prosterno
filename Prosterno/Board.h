@@ -1,18 +1,22 @@
 #pragma once
+#define BOARD_ROWS 8
+#define BOARD_COLS 9
+
 class Board
 {
 public:
-	enum class Field
+	enum class Field	// Zwieksza czytelnosc kodu
 	{
-		Friend = 1,
-		Empty = 0,
-		Enemy = -1,
+		Friend = 'P',	// Pionki I gracza
+		Empty = 'x',	// Brak zadnego pionka
+		Enemy = 'W',	// Pionki II gracza
 	};
 private:
-	Field board[8][9];
+	Field board[BOARD_ROWS][BOARD_COLS];
 public:
 	Board();
 	~Board();
-	void Print();
+	void PrintBoard();
+	void PrintInstruction();
 };
 
