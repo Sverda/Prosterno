@@ -60,14 +60,12 @@ Board::Board()
 	}
 }
 
-
 Board::~Board()
 {
 }
 
 void Board::PrintBoard()
 {
-	//TODO: Implement board game, example: https://camo.githubusercontent.com/2585c1c742042de7781976bf005ea81c41ee234f/687474703a2f2f692e696d6775722e636f6d2f417358686876432e706e67
 	// Górne litery pomocnicze
 	char horizontalLetter = 'a';
 	printf("   ");
@@ -104,8 +102,77 @@ void Board::PrintBoard()
 
 bool Board::InputChange(BoardChange& change)
 {
+	// Sprawdzenie, czy na odpowiednim polu znajduje siê pion nale¿¹cy do gracza
 	if (board[change.prevRow][change.prevCol] == change.player)
 	{
-		//TODO: Sprawdzenie, czy mo¿na przesun¹æ pionek. 
+		// Nie mo¿na siê ruszyæ na swojego pionka
+		if (board[change.nextRow][change.nextCol] == change.player)
+		{
+			return false;
+		}
+		// Sprawdzanie, czy pionek ruszy siê na dozwolone pole
+		//TODO: Uwzglêdniæ to ¿e pionek mo¿e siê cofaæ tylko gdy mo¿e popchn¹æ pionka. 
+		if ((change.nextRow == (change.prevRow + 1) || change.nextRow == (change.prevRow - 1)) &&
+			(change.nextCol == (change.prevCol + 1) || change.nextCol == (change.prevCol - 1)))
+		{
+			pushFigure(change);
+		}
+		else
+		{
+			return false;
+		}
 	}
+	else
+	{
+		return false;
+	}
+	return true;
+}
+
+void Board::pushFigure(BoardChange& change)
+{
+	Field opponent = !change.player;
+	// Ruch pionka
+	board[change.prevRow][change.prevCol] = Field::Empty;
+	board[change.nextRow][change.nextCol] = change.player;
+	// Wykrywanie przeciwników
+	bool enemies[4];	// enemies[0] - góra, enemies[1] - prawa, enemies[2] - dó³, enemies[3] - lewa
+						// Wartoœæ true oznacza ¿e znajduje siê tam pionek przeciwnika
+	// Góra
+	if (board[change.nextRow + 1][change.nextCol] == opponent)
+	{
+		enemies[0] = true;
+	}
+	else
+	{
+		enemies[0] = false;
+	}
+	// Prawa
+	if (board[change.nextRow][change.nextCol + 1] == opponent)
+	{
+		enemies[1] = true;
+	}
+	else
+	{
+		enemies[1] = false;
+	}
+	// Dó³
+	if (board[change.nextRow - 1][change.nextCol] == opponent)
+	{
+		enemies[2] = true;
+	}
+	else
+	{
+		enemies[2] = false;
+	}
+	// Lewa
+	if (board[change.nextRow][change.nextCol - 1] == opponent)
+	{
+		enemies[3] = true;
+	}
+	else
+	{
+		enemies[3] = false;
+	}
+	//TODO: Przesun¹æ figury wroga i ewentualnie wykonaæ reakcjê ³añcuchow¹. 
 }

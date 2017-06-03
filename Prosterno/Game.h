@@ -10,7 +10,7 @@ private:
 public:
 	Game();
 	~Game();
-	void PrintInstruction();
+	void PrintStartInstruction();
 	void PlayRound();
 };
 

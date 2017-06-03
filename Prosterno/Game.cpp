@@ -3,14 +3,14 @@
 
 Game::Game()
 {
-	PrintInstruction();
+	PrintStartInstruction();
 }
 
 Game::~Game()
 {
 }
 
-void Game::PrintInstruction()
+void Game::PrintStartInstruction()
 {
 	/*printf("Gra polega na dostaniu sie swoim pionkiem do\n");
 	printf("drugiego kranca planszy. \n");*/
@@ -26,7 +26,7 @@ void Game::PlayRound()
 	bool result = board.InputChange(player.MakeMove());
 	if (!result)
 	{
-		printf("\nAkcja nie zostala wykonana. \n");
+		printf("\Ruch nie moze zostac wykonany. \n");
 		return;
 	}
 }
