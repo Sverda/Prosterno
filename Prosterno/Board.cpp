@@ -112,10 +112,18 @@ bool Board::InputChange(BoardChange& change)
 		}
 		// Sprawdzanie, czy pionek ruszy siê na dozwolone pole
 		//TODO: Uwzglêdniæ to ¿e pionek mo¿e siê cofaæ tylko gdy mo¿e popchn¹æ pionka. 
+		//TODO: Uwzglêdniæ ¿eby pionek nie móg³ wyjœæ poza planszê. 
 		if ((change.nextRow == (change.prevRow + 1) || change.nextRow == (change.prevRow - 1)) &&
 			(change.nextCol == (change.prevCol + 1) || change.nextCol == (change.prevCol - 1)))
 		{
-			pushFigure(change);
+			// Ruch pionka
+			board[change.prevRow][change.prevCol] = Field::Empty;
+			board[change.nextRow][change.nextCol] = change.player;
+			// Poruszanie reszt¹ pionków - reakcja ³añcuchowa
+			while (pushFigure(change))
+			{
+				change.player = !change.player;
+			}
 		}
 		else
 		{
@@ -129,50 +137,70 @@ bool Board::InputChange(BoardChange& change)
 	return true;
 }
 
-void Board::pushFigure(BoardChange& change)
+bool Board::pushFigure(BoardChange& change)
 {
 	Field opponent = !change.player;
-	// Ruch pionka
-	board[change.prevRow][change.prevCol] = Field::Empty;
-	board[change.nextRow][change.nextCol] = change.player;
-	// Wykrywanie przeciwników
-	bool enemies[4];	// enemies[0] - góra, enemies[1] - prawa, enemies[2] - dó³, enemies[3] - lewa
-						// Wartoœæ true oznacza ¿e znajduje siê tam pionek przeciwnika
-	// Góra
-	if (board[change.nextRow + 1][change.nextCol] == opponent)
+	
+	//TODO: Uwzglêdniæ zakres tablicy
+	// Pionek górny
+	if (change.nextRow + 1 >= BOARD_ROWS 
+		|| board[change.nextRow + 1][change.nextCol] == opponent)	// Wykrywanie przeciwnika
 	{
-		enemies[0] = true;
+		// Sprawdzanie, czy pionek mo¿e siê przesun¹æ o dwa pola, jeœli nie mo¿e to zostanie zdjêty z planszy. 
+		if (change.nextRow + 1 + 2 >= BOARD_ROWS
+			|| board[change.nextRow + 1 + 2][change.nextCol] == opponent)
+		{
+			board[change.nextRow + 1][change.nextCol] = Field::Empty;
+		}
+		else
+		{
+			board[change.nextRow + 1][change.nextCol] = Field::Empty;
+			board[change.nextRow + 1 + 2][change.nextCol] = opponent;
+		}
 	}
-	else
+	// Pionek prawy
+	if (change.nextCol + 1 >= BOARD_COLS
+		|| board[change.nextRow][change.nextCol + 1] == opponent)
 	{
-		enemies[0] = false;
+		if (change.nextCol + 1 + 2 >= BOARD_COLS
+			|| board[change.nextRow][change.nextCol + 1 + 2] == opponent)
+		{
+			board[change.nextRow][change.nextCol + 1] = Field::Empty;
+		}
+		else
+		{
+			board[change.nextRow][change.nextCol + 1] = Field::Empty;
+			board[change.nextRow][change.nextCol + 1 + 2] = opponent;
+		}
 	}
-	// Prawa
-	if (board[change.nextRow][change.nextCol + 1] == opponent)
+	// Pionek dolny
+	if (change.nextRow - 1 < 0
+		|| board[change.nextRow - 1][change.nextCol] == opponent)
 	{
-		enemies[1] = true;
+		if (change.nextRow - 1 - 2 < 0
+			|| board[change.nextRow - 1 - 2][change.nextCol] == opponent)
+		{
+			board[change.nextRow - 1][change.nextCol] = Field::Empty;
+		}
+		else
+		{
+			board[change.nextRow - 1][change.nextCol] = Field::Empty;
+			board[change.nextRow - 1 - 2][change.nextCol] = opponent;
+		}
 	}
-	else
+	// Pionek lewy
+	if (change.nextCol - 1 < 0
+		|| board[change.nextRow][change.nextCol - 1] == opponent)
 	{
-		enemies[1] = false;
+		if (change.nextCol - 1 - 2 < 0
+			|| board[change.nextRow][change.nextCol - 1 - 2] == opponent)
+		{
+			board[change.nextRow][change.nextCol - 1] = Field::Empty;
+		}
+		else
+		{
+			board[change.nextRow][change.nextCol - 1] = Field::Empty;
+			board[change.nextRow][change.nextCol - 1 - 2] = opponent;
+		}
 	}
-	// Dó³
-	if (board[change.nextRow - 1][change.nextCol] == opponent)
-	{
-		enemies[2] = true;
-	}
-	else
-	{
-		enemies[2] = false;
-	}
-	// Lewa
-	if (board[change.nextRow][change.nextCol - 1] == opponent)
-	{
-		enemies[3] = true;
-	}
-	else
-	{
-		enemies[3] = false;
-	}
-	//TODO: Przesun¹æ figury wroga i ewentualnie wykonaæ reakcjê ³añcuchow¹. 
 }

@@ -9,7 +9,7 @@ class Board
 private:
 	Field board[BOARD_ROWS][BOARD_COLS];
 	// Przemieszcza pionek do konkretnego pola i popycha znajduj¹ce siê tam pionki przeciwnika
-	void pushFigure(BoardChange& change);
+	bool pushFigure(BoardChange& change);	// true - gdy wszystkie pionki zosta³y przmieszczone
 public:
 	Board();
 	~Board();
