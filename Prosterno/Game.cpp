@@ -1,10 +1,13 @@
 #include "Game.h"
 #include<cstdio>
+#include<cstdlib>
+#include<ctime>
 
-Game::Game(): ai(board)
+Game::Game():player("Gracz", Field::Friend, board), ai(board), enemy("Przeciwnik", Field::Enemy, board)
 {
+	srand((int)time(NULL));	// Losowanie dla AI
 	PrintStartInstruction();
-	board.PrintBoard();
+	endgame = false;
 }
 
 Game::~Game()
@@ -13,33 +16,20 @@ Game::~Game()
 
 void Game::PrintStartInstruction()
 {
-	/*printf("Gra polega na dostaniu sie swoim pionkiem do\n");
-	printf("drugiego kranca planszy. \n");*/
 	printf("Twoje pionki (lub I gracza) sa oznaczone jako: P\n");
 	printf("Pionki przeciwnika (lub II gracza) natomiast jako: W\n\n");
 	printf("Ruszanie pionka: RzadKolumna Rzad2Kolumna2\n");
-	printf("RzadKolumna - miejsce z ktorego ruszamy pionkiem \nRzadKolumna2 - miejce do ktorego chcemy ruszyc pionka\n");
 }
 
-void Game::PlayRoundWithAI()
+void Game::PlayRound()
 {
-	bool result;
-	BoardChange playerMove = player.MakeMove();
-	if (playerMove == BoardChange())
-	{
-		result = false;
-	}
-	else
-	{
-		result = board.InputChange(playerMove);
-	}
-	if (!result)
-	{
-		printf("\nRuch nie moze zostac wykonany. \n");
-		return;
-	}
+	//TODO: Obs³uga b³êdów
+	board.PrintBoard();
+	player.MakeMove();
+
 	board.PrintBoard();
 	ai.MakeMove();
+
 	board.PrintBoard();
 	endgame = board.CheckEndgame();
 }

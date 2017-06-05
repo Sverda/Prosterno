@@ -4,8 +4,9 @@
 class Player: public Person
 {
 public:
-	Player();
+	Player(Board& _boardManager);
+	Player(char * _name, Field _mark, Board& _boardManager);
 	~Player();
-	BoardChange MakeMove();
+	void MakeMove();
 };
 

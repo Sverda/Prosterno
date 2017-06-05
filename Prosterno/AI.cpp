@@ -2,7 +2,7 @@
 #include<cstdlib>
 #define FIG_COUNT 9 /*iloœæ figur przypadaj¹ca na jednego gracza*/
 
-AI::AI(Board& _boardManager) :Person("Przeciwnik", Field::Enemy), boardManager(_boardManager), board(_boardManager.board)
+AI::AI(Board& _boardManager) :Person("Przeciwnik", Field::Enemy, _boardManager)
 {
 }
 
@@ -10,7 +10,7 @@ AI::~AI()
 {
 }
 
-BoardChange AI::MakeMove()
+void AI::MakeMove()
 {
 	// Zbieranie wszystkich dostêpnych pionków na planszy...
 	int positions[FIG_COUNT][2];
@@ -45,5 +45,4 @@ BoardChange AI::MakeMove()
 		}
 		nextCol += prevCol;
 	} while (!boardManager.InputChange(BoardChange(prevRow, prevCol, nextRow, nextCol, mark)));
-	return BoardChange();
 }

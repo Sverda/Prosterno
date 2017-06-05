@@ -1,13 +1,13 @@
 #include "Person.h"
 #include<cstring>
 
-Person::Person()
+Person::Person(Board& _boardManager): boardManager(_boardManager), board(_boardManager.board)
 {
-	strcpy(name, "Damian");
+	strcpy(name, "Gracz");
 	mark = Field::Friend;
 }
 
-Person::Person(char * _name, Field _mark)
+Person::Person(char * _name, Field _mark, Board& _boardManager): boardManager(_boardManager), board(_boardManager.board)
 {
 	strcpy(name, _name);
 	mark = _mark;
