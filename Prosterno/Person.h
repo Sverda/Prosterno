@@ -11,11 +11,11 @@ protected:
 	Field mark;				// Oznaczenie gracza
 	Board& boardManager;	// Ten sam obiekt co w klasie Game
 	Field(&board)[BOARD_ROWS][BOARD_COLS];
+public:
 	Person(Board& _boardManager);
 	Person(char* _name, Field _mark, Board& _boardManager);
 	~Person();
-	virtual void MakeMove() = 0;
-public:
+	virtual void MakeMove();
 	char* GetName();
 };
 

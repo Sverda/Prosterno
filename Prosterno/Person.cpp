@@ -17,6 +17,10 @@ Person::~Person()
 {
 }
 
+void Person::MakeMove()
+{
+}
+
 char * Person::GetName()
 {
 	int len = (int)strlen(name);

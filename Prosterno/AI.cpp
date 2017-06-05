@@ -1,8 +1,13 @@
 #include"AI.h"
+#include<cstdio>
 #include<cstdlib>
 #define FIG_COUNT 9 /*iloœæ figur przypadaj¹ca na jednego gracza*/
 
 AI::AI(Board& _boardManager) :Person("Przeciwnik", Field::Enemy, _boardManager)
+{
+}
+
+AI::AI(char * _name, Field _mark, Board & _boardManager) : Person(_name, _mark, _boardManager)
 {
 }
 
@@ -36,7 +41,15 @@ void AI::MakeMove()
 		figure = rand() % positionCount;
 		prevRow = positions[figure][0];
 		prevCol = positions[figure][1];
-		nextRow = prevRow + 1;
+		// Friend zawsze na dole, a Enamy na górze
+		if (mark == Field::Enemy)
+		{
+			nextRow = prevRow + 1;
+		}
+		else if (mark == Field::Friend)
+		{
+			nextRow = prevRow - 1;
+		}
 		// Ruch tylko na skos
 		nextCol = rand() % 2;
 		if (nextCol == 0)
@@ -45,4 +58,9 @@ void AI::MakeMove()
 		}
 		nextCol += prevCol;
 	} while (!boardManager.InputChange(BoardChange(prevRow, prevCol, nextRow, nextCol, mark)));
+	printf("Wykonano ruch: %d%c %d%c\n", prevRow, prevCol + 'a', nextRow, nextCol + 'a');
+	if (nextCol + 'a' >= 'j' || nextCol + 'a' <= 'j')
+	{
+		return;
+	}
 }

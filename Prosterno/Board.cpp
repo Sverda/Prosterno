@@ -113,8 +113,8 @@ bool Board::InputChange(BoardChange& change)
 		}
 		// Sprawdzanie, czy pionek ruszy siê na dozwolone pole
 		//TODO: Uwzglêdniæ to ¿e pionek mo¿e siê cofaæ tylko gdy mo¿e popchn¹æ pionka. 
-		//TODO: Uwzglêdniæ ¿eby pionek nie móg³ wyjœæ poza planszê. 
-		if ((change.nextRow == (change.prevRow + 1) || change.nextRow == (change.prevRow - 1)) &&
+		if (change.nextCol >= 0 && change.nextCol < 9 && 
+			(change.nextRow == (change.prevRow + 1) || change.nextRow == (change.prevRow - 1)) &&
 			(change.nextCol == (change.prevCol + 1) || change.nextCol == (change.prevCol - 1)))
 		{
 			// Ruch pionka
@@ -219,7 +219,7 @@ void Board::pushFigure(BoardChange& change)
 	else
 	{
 		board[change.prevRow][change.prevCol] = Field::Empty;
-		board[change.nextRow][change.nextCol] = opponent;
+		board[change.nextRow][change.nextCol] = change.player;
 	}
 }
 
