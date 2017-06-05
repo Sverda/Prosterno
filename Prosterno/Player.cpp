@@ -12,12 +12,11 @@ Player::~Player()
 
 BoardChange Player::MakeMove()
 {
-	char figure[5];
-	char destination[5];
+	char figure[3];
+	char destination[3];
 	printf("Wykonywanie ruchu.\n");
 	printf("Podaj figure: ");
-	scanf("%s", figure);
-	scanf("%s", destination);
+	scanf("%s %s", figure, destination);
 	if (figure[0] < '0' || figure[0] >= '8' ||
 		figure[1] < 'a' || figure[1] >= 'i' || 
 		destination[0] < '0' || destination[0] >= '8' ||
