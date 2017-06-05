@@ -77,7 +77,7 @@ void Board::PrintBoard()
 	printf("\n\n");
 
 	// Plansza
-	int verticalNumber = 1;
+	int verticalNumber = 0;
 	for (int i = 0; i < BOARD_ROWS; i++)
 	{
 		// Lewe cyfry pomocnicze
@@ -121,12 +121,12 @@ bool Board::InputChange(BoardChange& change)
 			board[change.prevRow][change.prevCol] = Field::Empty;
 			board[change.nextRow][change.nextCol] = change.player;
 			// Poruszanie reszt¹ pionków - reakcja ³añcuchowa
-			BoardChange** moves;
+			BoardChange* moves[MOVES];
 			int nulls;	// iloœæ poruszonych figur
 			do
 			{
 				nulls = 0;
-				moves = analyzeBoard(change.player);
+				analyzeBoard(change.player, moves);
 				for (int i = 0; i < MOVES; i++)
 				{
 					if (moves[i] != nullptr)
@@ -172,10 +172,9 @@ void Board::pushFigure(BoardChange& change)
 	}
 }
 
-BoardChange** Board::analyzeBoard(Field & player)
+void Board::analyzeBoard(Field & player, BoardChange** moves)
 {
 	Field opponent = !player;
-	BoardChange* moves[MOVES];
 	int i;
 	for (i = 0; i < MOVES; i++)
 	{
@@ -217,9 +216,8 @@ BoardChange** Board::analyzeBoard(Field & player)
 			}
 			if (i >= MOVES)
 			{
-				return moves;
+				return;
 			}
 		}
 	}
-	return moves;
 }

@@ -11,7 +11,5 @@ public:
 	Game();
 	~Game();
 	void PrintStartInstruction();
-	void PrintBoard();
 	void PlayRound();
 };
-

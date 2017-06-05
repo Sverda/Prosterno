@@ -4,6 +4,5 @@
 int main()
 {
 	Game game;
-	game.PrintBoard();
 	game.PlayRound();
 }

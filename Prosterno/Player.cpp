@@ -2,7 +2,7 @@
 #include<cstdio>
 #include<ctype.h>
 
-Player::Player()
+Player::Player():Person()
 {
 }
 
@@ -12,9 +12,18 @@ Player::~Player()
 
 BoardChange Player::MakeMove()
 {
-	char userInput[5];
-	printf("Wykonaj ruch: ");
-	scanf("%s", userInput);
-	//TODO: Kontrola poprawnosci danych
-	return BoardChange(userInput[0], userInput[1], userInput[3], userInput[4], Field::Friend);
+	char figure[5];
+	char destination[5];
+	printf("Wykonywanie ruchu.\n");
+	printf("Podaj figure: ");
+	scanf("%s", figure);
+	scanf("%s", destination);
+	if (figure[0] < '0' || figure[0] >= '8' ||
+		figure[1] < 'a' || figure[1] >= 'i' || 
+		destination[0] < '0' || destination[0] >= '8' ||
+		destination[1] < 'a' || destination[1] >= 'i')
+	{
+		return BoardChange();
+	}
+	return BoardChange(figure[0] - '0', figure[1] - 'a', destination[0] - '0', destination[1] - 'a', Field::Friend);
 }

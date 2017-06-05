@@ -20,18 +20,23 @@ void Game::PrintStartInstruction()
 	printf("RzadKolumna - miejsce z ktorego ruszamy pionkiem \nRzadKolumna2 - miejce do ktorego chcemy ruszyc pionka\n");
 }
 
-void Game::PrintBoard()
-{
-	board.PrintBoard();
-}
-
 void Game::PlayRound()
 {
 	board.PrintBoard();
-	bool result = board.InputChange(player.MakeMove());
+	bool result;
+	BoardChange playerMove = player.MakeMove();
+	if (playerMove == BoardChange())
+	{
+		result = false;
+	}
+	else
+	{
+		result = board.InputChange(playerMove);
+	}
 	if (!result)
 	{
 		printf("\nRuch nie moze zostac wykonany. \n");
 		return;
 	}
+	board.PrintBoard();
 }

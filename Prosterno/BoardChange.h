@@ -13,11 +13,13 @@ private:
 	Field player;	// Gracz który wykona³ ruch
 public:
 	BoardChange();
+	BoardChange(Field _player);
 	BoardChange(const BoardChange& mk);
 	BoardChange(int _prevRow, int _prevCol, int _nextRow, int _nextCol, Field _player): 
 		prevRow(_prevRow), prevCol(_prevCol), 
 		nextRow(_nextRow), nextCol(_nextCol), player(_player){}
 	~BoardChange();
+	bool operator==(const BoardChange b);
 	friend class Board;
 };
 

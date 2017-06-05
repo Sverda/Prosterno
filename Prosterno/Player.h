@@ -1,12 +1,8 @@
 #pragma once
-#include"BoardChange.h"
-#define CHAR40 40
+#include"Person.h"
 
-class Player
+class Player: public Person
 {
-private:
-	char name[CHAR40];
-	Field mark;	// Oznaczenie gracza
 public:
 	Player();
 	~Player();
