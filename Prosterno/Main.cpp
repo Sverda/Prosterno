@@ -7,5 +7,9 @@ int main()
 {
 	srand((int)time(NULL));	// Losowanie dla AI
 	Game game;
-	game.PlayRound();
+	while (!game.CheckEndgame())
+	{
+		game.PlayRoundWithAI();
+		system("cls");
+	}
 }

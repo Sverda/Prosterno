@@ -1,9 +1,10 @@
 #include "Game.h"
 #include<cstdio>
 
-Game::Game()
+Game::Game(): ai(board)
 {
 	PrintStartInstruction();
+	board.PrintBoard();
 }
 
 Game::~Game()
@@ -20,9 +21,8 @@ void Game::PrintStartInstruction()
 	printf("RzadKolumna - miejsce z ktorego ruszamy pionkiem \nRzadKolumna2 - miejce do ktorego chcemy ruszyc pionka\n");
 }
 
-void Game::PlayRound()
+void Game::PlayRoundWithAI()
 {
-	board.PrintBoard();
 	bool result;
 	BoardChange playerMove = player.MakeMove();
 	if (playerMove == BoardChange())
@@ -39,4 +39,12 @@ void Game::PlayRound()
 		return;
 	}
 	board.PrintBoard();
+	ai.MakeMove();
+	board.PrintBoard();
+	endgame = board.CheckEndgame();
+}
+
+bool Game::CheckEndgame()
+{
+	return endgame;
 }

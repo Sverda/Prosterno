@@ -17,6 +17,7 @@ public:
 	void PrintBoard();
 	// Funkcja s³u¿y do aktualizowania zmian na planszy na podstawie ruchu gracza
 	bool InputChange(BoardChange& change);	// true - zmiany wprowadzone pomyslnie, false - wpp
+	bool CheckEndgame();
 	friend class AI;
 };
 

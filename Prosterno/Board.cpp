@@ -153,6 +153,57 @@ bool Board::InputChange(BoardChange& change)
 	return true;
 }
 
+bool Board::CheckEndgame()
+{
+	bool endgame = false;
+	// Sprawdzanie, czy któryœ z graczy nie ma ju¿ pionków
+	int figuresCount = 0;
+	for (int row = 0; row < BOARD_ROWS; row++)
+	{
+		for (int col = 0; col < BOARD_COLS; col++)
+		{
+			if (board[row][col] == Field::Friend)
+			{
+				figuresCount++;
+			}
+		}
+	}
+	if (figuresCount == 0)
+	{
+		endgame = true;
+	}
+	figuresCount = 0;
+	for (int row = 0; row < BOARD_ROWS; row++)
+	{
+		for (int col = 0; col < BOARD_COLS; col++)
+		{
+			if (board[row][col] == Field::Enemy)
+			{
+				figuresCount++;
+			}
+		}
+	}
+	if (figuresCount == 0)
+	{
+		endgame = true;
+	}
+	// Sprawdzanie, czy któryœ z graczy doszed³ do koñca planszy
+	for (int col = 0; col < BOARD_COLS; col++)
+	{
+		// Przyjazny gracz zawsze zaczyna na dole
+		if (board[BOARD_ROWS - 1][col] == Field::Enemy)
+		{
+			endgame = true;
+		}
+		// Nieprzyjazny gracz zawsze zaczyna na górze
+		if (board[0][col] == Field::Friend)
+		{
+			endgame = true;
+		}
+	}
+	return endgame;
+}
+
 void Board::pushFigure(BoardChange& change)
 {
 	Field opponent = !change.player;

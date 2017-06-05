@@ -23,6 +23,7 @@ BoardChange AI::MakeMove()
 			{
 				positions[positionCount][0] = row;
 				positions[positionCount][1] = col;
+				positionCount++;
 			}
 		}
 	}
@@ -32,7 +33,7 @@ BoardChange AI::MakeMove()
 	int figure;				// Indeks wylosowanej figury
 	do
 	{
-		figure = rand() % FIG_COUNT;
+		figure = rand() % positionCount;
 		prevRow = positions[figure][0];
 		prevCol = positions[figure][1];
 		nextRow = prevRow + 1;

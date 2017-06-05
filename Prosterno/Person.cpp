@@ -15,12 +15,13 @@ Person::Person(char * _name, Field _mark)
 
 Person::~Person()
 {
-	delete name;
 }
 
 char * Person::GetName()
 {
-	char nametmp[CHAR30];
+	int len = (int)strlen(name);
+	char* nametmp = new char[len];
 	strcpy(nametmp, name);
-	return ;
+	return nametmp;
+	//TODO: Nie zapomnij dealokowaæ zmiennej nametmp. 
 }
