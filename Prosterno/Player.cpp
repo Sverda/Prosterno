@@ -16,5 +16,5 @@ BoardChange Player::MakeMove()
 	printf("Wykonaj ruch: ");
 	scanf("%s", userInput);
 	//TODO: Kontrola poprawnosci danych
-	return BoardChange(userInput[0], userInput[1], userInput[3], userInput[4]);
+	return BoardChange(userInput[0], userInput[1], userInput[3], userInput[4], Field::Friend);
 }

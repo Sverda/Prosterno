@@ -1,5 +1,6 @@
 #include "Board.h"
 #include<cstdio>
+#define MOVES 20 /*iloœæ ruchów przechowywanych w buforze moves*/
 
 Board::Board()
 {
@@ -120,10 +121,25 @@ bool Board::InputChange(BoardChange& change)
 			board[change.prevRow][change.prevCol] = Field::Empty;
 			board[change.nextRow][change.nextCol] = change.player;
 			// Poruszanie reszt¹ pionków - reakcja ³añcuchowa
-			while (pushFigure(change))
+			BoardChange** moves;
+			int nulls;	// iloœæ poruszonych figur
+			do
 			{
+				nulls = 0;
+				moves = analyzeBoard(change.player);
+				for (int i = 0; i < MOVES; i++)
+				{
+					if (moves[i] != nullptr)
+					{
+						pushFigure(*moves[i]);
+					}
+					else
+					{
+						nulls++;
+					}
+				}
 				change.player = !change.player;
-			}
+			} while (nulls != MOVES);
 		}
 		else
 		{
@@ -137,70 +153,73 @@ bool Board::InputChange(BoardChange& change)
 	return true;
 }
 
-bool Board::pushFigure(BoardChange& change)
+void Board::pushFigure(BoardChange& change)
 {
 	Field opponent = !change.player;
-	
-	//TODO: Uwzglêdniæ zakres tablicy
-	// Pionek górny
-	if (change.nextRow + 1 >= BOARD_ROWS 
-		|| board[change.nextRow + 1][change.nextCol] == opponent)	// Wykrywanie przeciwnika
+	// Sprawdzanie, czy pionek mo¿e siê przesun¹æ o dwa pola, jeœli nie mo¿e to zostanie zdjêty z planszy. 
+	if (change.nextRow >= BOARD_ROWS
+		|| change.nextRow < 0
+		|| change.nextCol >= BOARD_COLS
+		|| change.nextCol < 0
+		|| board[change.nextRow][change.nextCol] == opponent)
 	{
-		// Sprawdzanie, czy pionek mo¿e siê przesun¹æ o dwa pola, jeœli nie mo¿e to zostanie zdjêty z planszy. 
-		if (change.nextRow + 1 + 2 >= BOARD_ROWS
-			|| board[change.nextRow + 1 + 2][change.nextCol] == opponent)
+		board[change.prevRow][change.prevCol] = Field::Empty;
+	}
+	else
+	{
+		board[change.prevRow][change.prevCol] = Field::Empty;
+		board[change.nextRow][change.nextCol] = opponent;
+	}
+}
+
+BoardChange** Board::analyzeBoard(Field & player)
+{
+	Field opponent = !player;
+	BoardChange* moves[MOVES];
+	int i;
+	for (i = 0; i < MOVES; i++)
+	{
+		moves[i] = nullptr;
+	}
+	i = 0;
+	for (int row = 0; row < BOARD_ROWS; row++)
+	{
+		for (int col = 0; col < BOARD_COLS; col++)
 		{
-			board[change.nextRow + 1][change.nextCol] = Field::Empty;
-		}
-		else
-		{
-			board[change.nextRow + 1][change.nextCol] = Field::Empty;
-			board[change.nextRow + 1 + 2][change.nextCol] = opponent;
+			if (board[row][col] != player)
+			{
+				continue;
+			}
+			// Wykrywanie przeciwników wokó³ pionka
+			// Pionek dolny
+			if (row + 1 < BOARD_ROWS
+				&& board[row + 1][col] == opponent)
+			{
+				moves[i++] = new BoardChange(row + 1, col, row + 3, col, opponent);
+			}
+			// Pionek prawy
+			if (col + 1 < BOARD_COLS
+				&& board[row][col + 1] == opponent)
+			{
+				moves[i++] = new BoardChange(row, col + 1, row, col + 3, opponent);
+			}
+			// Pionek górny
+			if (row - 1 >= 0
+				&& board[row - 1][col] == opponent)
+			{
+				moves[i++] = new BoardChange(row - 1, col, row - 3, col, opponent);
+			}
+			// Pionek lewy
+			if (col - 1 >= 0
+				&& board[row][col - 1] == opponent)
+			{
+				moves[i++] = new BoardChange(row, col - 1, row, col - 3, opponent);
+			}
+			if (i >= MOVES)
+			{
+				return moves;
+			}
 		}
 	}
-	// Pionek prawy
-	if (change.nextCol + 1 >= BOARD_COLS
-		|| board[change.nextRow][change.nextCol + 1] == opponent)
-	{
-		if (change.nextCol + 1 + 2 >= BOARD_COLS
-			|| board[change.nextRow][change.nextCol + 1 + 2] == opponent)
-		{
-			board[change.nextRow][change.nextCol + 1] = Field::Empty;
-		}
-		else
-		{
-			board[change.nextRow][change.nextCol + 1] = Field::Empty;
-			board[change.nextRow][change.nextCol + 1 + 2] = opponent;
-		}
-	}
-	// Pionek dolny
-	if (change.nextRow - 1 < 0
-		|| board[change.nextRow - 1][change.nextCol] == opponent)
-	{
-		if (change.nextRow - 1 - 2 < 0
-			|| board[change.nextRow - 1 - 2][change.nextCol] == opponent)
-		{
-			board[change.nextRow - 1][change.nextCol] = Field::Empty;
-		}
-		else
-		{
-			board[change.nextRow - 1][change.nextCol] = Field::Empty;
-			board[change.nextRow - 1 - 2][change.nextCol] = opponent;
-		}
-	}
-	// Pionek lewy
-	if (change.nextCol - 1 < 0
-		|| board[change.nextRow][change.nextCol - 1] == opponent)
-	{
-		if (change.nextCol - 1 - 2 < 0
-			|| board[change.nextRow][change.nextCol - 1 - 2] == opponent)
-		{
-			board[change.nextRow][change.nextCol - 1] = Field::Empty;
-		}
-		else
-		{
-			board[change.nextRow][change.nextCol - 1] = Field::Empty;
-			board[change.nextRow][change.nextCol - 1 - 2] = opponent;
-		}
-	}
+	return moves;
 }

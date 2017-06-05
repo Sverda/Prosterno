@@ -2,7 +2,7 @@
 #include"Field.h"
 
 // Klasa s³u¿y do przekazywania zmian które nale¿y wprowadziæ do rozmieszczenia pionków na planszy. 
-// W przypadku nie wykonania poprawnej akcji wszystkie wartosci s¹ ustalone na -1
+// W przypadku nie wykonania poprawnej akcji wszystkie wartosci kolum i wierszy s¹ ustalone na -1, a player na Empty
 class BoardChange
 {
 private:
@@ -12,9 +12,11 @@ private:
 	int nextCol;	// Kolumna do której pionek musi zostaæ przemieszczony
 	Field player;	// Gracz który wykona³ ruch
 public:
-	BoardChange(int _prevRow, int _prevCol, int _nextRow, int _nextCol): 
+	BoardChange();
+	BoardChange(const BoardChange& mk);
+	BoardChange(int _prevRow, int _prevCol, int _nextRow, int _nextCol, Field _player): 
 		prevRow(_prevRow), prevCol(_prevCol), 
-		nextRow(_nextRow), nextCol(_nextCol){}
+		nextRow(_nextRow), nextCol(_nextCol), player(_player){}
 	~BoardChange();
 	friend class Board;
 };
