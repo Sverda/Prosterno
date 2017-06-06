@@ -1,6 +1,5 @@
 #include "Board.h"
 #include<cstdio>
-#define MOVES 20 /*iloœæ ruchów przechowywanych w buforze moves*/
 
 Board::Board()
 {
@@ -112,17 +111,18 @@ bool Board::InputChange(BoardChange& change)
 			return false;
 		}
 		// Sprawdzanie, czy pionek ruszy siê na dozwolone pole
-		//TODO: Uwzglêdniæ to ¿e pionek mo¿e siê cofaæ tylko gdy mo¿e popchn¹æ pionka. 
+		//TODO: Uwzglêdniæ to ¿e pionek mo¿e siê cofaæ tylko gdy mo¿e zdobyæ punkt. 
 		if (change.nextCol >= 0 && change.nextCol < 9 && 
 			(change.nextRow == (change.prevRow + 1) || change.nextRow == (change.prevRow - 1)) &&
 			(change.nextCol == (change.prevCol + 1) || change.nextCol == (change.prevCol - 1)))
 		{
+			Save(TEMPSAVE);
+			int nulls;	// iloœæ nie poruszonych figur
+			BoardChange* moves[MOVES];
 			// Ruch pionka
 			board[change.prevRow][change.prevCol] = Field::Empty;
 			board[change.nextRow][change.nextCol] = change.player;
 			// Poruszanie reszt¹ pionków - reakcja ³añcuchowa
-			BoardChange* moves[MOVES];
-			int nulls;	// iloœæ poruszonych figur
 			do
 			{
 				nulls = 0;
@@ -137,6 +137,10 @@ bool Board::InputChange(BoardChange& change)
 					{
 						nulls++;
 					}
+				}
+				for (int i = 0; i < MOVES; i++)
+				{
+					delete moves[i];
 				}
 				change.player = !change.player;
 			} while (nulls != MOVES);
@@ -202,6 +206,47 @@ bool Board::CheckEndgame()
 		}
 	}
 	return endgame;
+}
+
+void Board::Save(char* fname)
+{
+	FILE* file;
+	file = fopen(fname, "w");
+	if (file == NULL)
+	{
+		return;
+	}
+	for (int row = 0; row < BOARD_ROWS; row++)
+	{
+		for (int col = 0; col < BOARD_COLS; col++)
+		{
+			fprintf(file, "%d ", board[row][col]);
+		}
+		fprintf(file, "\n");
+	}
+	fclose(file);
+}
+
+void Board::Load(char* fname)
+{
+	//TODO: Uzwglêdniæ brak pliku. 
+	FILE* file;
+	file = fopen(fname, "r");
+	if (file == NULL)
+	{
+		return;
+	}
+	int temp;
+	for (int row = 0; row < BOARD_ROWS; row++)
+	{
+		for (int col = 0; col < BOARD_COLS; col++)
+		{
+			fscanf(file, "%d ", &temp);
+			board[row][col] = (Field)temp;
+		}
+		fscanf(file, "\n");
+	}
+	fclose(file);
 }
 
 void Board::pushFigure(BoardChange& change)

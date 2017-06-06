@@ -3,11 +3,11 @@
 #include<cstdlib>
 #define FIG_COUNT 9 /*iloœæ figur przypadaj¹ca na jednego gracza*/
 
-AI::AI(Board& _boardManager) :Person("Przeciwnik", Field::Enemy, _boardManager)
+AI::AI(Board& _boardManager) :Person(Field::Enemy, _boardManager)
 {
 }
 
-AI::AI(char * _name, Field _mark, Board & _boardManager) : Person(_name, _mark, _boardManager)
+AI::AI(Field _mark, Board & _boardManager) : Person(_mark, _boardManager)
 {
 }
 
@@ -59,8 +59,9 @@ void AI::MakeMove()
 		nextCol += prevCol;
 	} while (!boardManager.InputChange(BoardChange(prevRow, prevCol, nextRow, nextCol, mark)));
 	printf("Wykonano ruch: %d%c %d%c\n", prevRow, prevCol + 'a', nextRow, nextCol + 'a');
-	if (nextCol + 'a' >= 'j' || nextCol + 'a' <= 'j')
+	//TODO: Bug. Pionki wychodz¹ poza tablicê
+	/*if (nextCol + 'a' >= 'j' || nextCol + 'a' <= 'j')
 	{
 		return;
-	}
+	}*/
 }
