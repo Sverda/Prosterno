@@ -3,9 +3,9 @@
 #include"Board.h"
 #include"Player.h"
 #include"AI.h"
-#include<cstdio>
-#include<cstdlib>
 #include<ctime>
+#include<iostream>
+using namespace std;
 
 // Zarz¹dza ogólnym przebiegiem gry i jest poœrednikiem pomiêdzy main a systemem gry. 
 template <typename P, typename E>	// P - player, E - enemy
@@ -48,17 +48,17 @@ Game<P, E>::~Game()
 template <typename P, typename E>
 void Game<P, E>::printStartInstruction()
 {
-	printf("Twoje pionki (lub I gracza) sa oznaczone jako: P\n");
-	printf("Pionki przeciwnika (lub II gracza) natomiast jako: W\n\n");
-	printf("Ruszanie pionka: RzadKolumna Rzad2Kolumna2\n");
-	printf("Aby zapisac wprowadz: ss ss, zamiast ruchu. \n");
+	cout << "\nTwoje pionki (lub I gracza) sa oznaczone jako: P" << endl;
+	cout << "Pionki przeciwnika (lub II gracza) natomiast jako: W" << endl;
+	cout << "Ruszanie pionka: RzadKolumna Rzad2Kolumna2" << endl;
+	cout << "Aby zapisac wprowadz: ss ss, zamiast ruchu. \n" << endl;
 }
 
 template <typename P, typename E>
 void Game<P, E>::PlayRound()
 {
 	board.PrintBoard();
-	printf("Ruch I gracza\n");
+	cout << "Ruch I gracza" << endl;
 	player->MakeMove();
 	board.PrintBoard();
 	endgame = board.CheckEndgame();
@@ -66,7 +66,7 @@ void Game<P, E>::PlayRound()
 	{
 		return;
 	}
-	printf("Ruch II gracza\n");
+	cout << "Ruch II gracza" << endl;
 	enemy->MakeMove();
 	endgame = board.CheckEndgame();
 }

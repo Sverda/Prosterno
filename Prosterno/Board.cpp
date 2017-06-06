@@ -1,5 +1,6 @@
 #include "Board.h"
 #include<cstdio>
+#include<cstdlib>
 
 Board::Board()
 {
@@ -64,6 +65,7 @@ Board::~Board()
 {
 }
 
+//U¿yto printf dla ³atwiejszego formatowania danych
 void Board::PrintBoard()
 {
 	// Górne litery pomocnicze
@@ -209,10 +211,12 @@ bool Board::CheckEndgame()
 
 void Board::Save(char* fname)
 {
+	//TODO: Sprawdzanie struktury pliku
 	FILE* file;
-	file = fopen(fname, "w");
+	file = fopen(fname, "r");
 	if (file == NULL)
 	{
+		perror("Nie udalo sie otworzyc pliku");
 		return;
 	}
 	for (int row = 0; row < BOARD_ROWS; row++)

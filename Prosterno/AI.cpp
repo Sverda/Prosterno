@@ -1,6 +1,8 @@
 #include"AI.h"
 #include<cstdio>
 #include<cstdlib>
+#include<iostream>
+using namespace std;
 #define FIG_COUNT 9 /*iloœæ figur przypadaj¹ca na jednego gracza*/
 
 AI::AI(Board& _boardManager) :Person(Field::Enemy, _boardManager)
@@ -59,4 +61,5 @@ void AI::MakeMove()
 		nextCol += prevCol;
 	} while (!boardManager.InputChange(BoardChange(prevRow, prevCol, nextRow, nextCol, mark)));
 	printf("Wykonano ruch: %d%c %d%c\n", prevRow, prevCol + 'a', nextRow, nextCol + 'a');
+
 }

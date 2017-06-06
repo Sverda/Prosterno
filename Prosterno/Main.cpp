@@ -1,18 +1,19 @@
-#include<cstdio>
-#include<cstdlib>
+#include<iostream>
 #include"Game.h"
+using namespace std;
 
 int main()
 {
 	// Menu
 	GameBase* game;
-	printf("Wybierz tryb gry: \n");
-	printf("1. Gracz vs Gracz\n");
-	printf("2. Gracz vs Komputer\n");
-	printf("3. Komputer vs Komputer\n");
+	cout << "Wybierz tryb gry: " << endl;
+	cout << "1. Gracz vs Gracz" << endl;
+	cout << "2. Gracz vs Komputer" << endl;
+	cout << "3. Komputer vs Komputer" << endl;
 	int choice;
-	printf("Podaj numer trybu: ");
-	scanf("%d", &choice);
+	cout << "Podaj numer trybu: ";
+	cin >> choice;
+	//scanf("%d", &choice);
 	switch (choice)
 	{
 	case 1:
@@ -25,11 +26,12 @@ int main()
 		game = new Game<AI, AI>();
 		break;
 	}
-	printf("Wczytac wczesniej zapisana gre? \n");
-	printf("1. Tak\n");
-	printf("2. Nie\n");
-	printf("Podaj numer: ");
-	scanf("%d", &choice);
+	cout << "Wczytac wczesniej zapisana gre? " << endl;
+	cout << "1. Tak" << endl;
+	cout << "2. Nie" << endl;
+	cout << "Podaj numer: ";
+	cin >> choice;
+	//scanf("%d", &choice);
 	if (choice == 1)
 	{
 		game->LoadBoard();
@@ -39,6 +41,6 @@ int main()
 	{
 		game->PlayRound();
 	}
-	printf("\nKoniec gry\n\n");
+	cout << "\nKoniec gry" << endl;
 	delete game;
 }

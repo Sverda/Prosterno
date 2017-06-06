@@ -2,6 +2,9 @@
 #include<cstdio>
 #include<ctype.h>
 #include<cstring>
+#include<iostream>
+using namespace std;
+
 
 Player::Player(Board& _boardManager) :Person(_boardManager)
 {
@@ -26,8 +29,12 @@ void Player::MakeMove()
 	do
 	{
 		loop = false;
-		printf("Podaj ruch: ");
-		scanf("%s %s", figure, destination);
+		cout << "Podaj ruch: ";
+
+		//TODO: cin
+		cin >> figure;
+		cin >> destination;
+		//scanf("%s %s", figure, destination);
 		// Zapisywanie gry
 		if (figure[0] == 's' &&
 			figure[1] == 's' &&
@@ -35,7 +42,7 @@ void Player::MakeMove()
 			destination[1] == 's')
 		{
 			boardManager.Save(SAVEFILE);
-			printf("Gra zostala zapisana. \n");
+			cout << "Gra zostala zapisana. " << endl;
 			loop = true;
 		}
 		// Prosta kontrola danych
@@ -44,7 +51,6 @@ void Player::MakeMove()
 			destination[0] < '0' || destination[0] >= '8' ||
 			destination[1] < 'a' || destination[1] >= 'i')
 		{
-			printf("Nie mozna zrealizowac tego ruchu. \n");
 			loop = true;
 		}
 		else
@@ -82,6 +88,10 @@ void Player::MakeMove()
 			}
 			board[prevRow][prevCol] = mark;
 			board[nextRow][nextCol] = Field::Empty;
+			if (loop)
+			{
+				cout << "Nie mozna zrealizowac tego ruchu. " << endl;
+			}
 		}
 	} while (loop || !boardManager.InputChange(BoardChange(prevRow, prevCol, nextRow, nextCol, mark)));
 }
