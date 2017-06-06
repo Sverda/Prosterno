@@ -111,7 +111,6 @@ bool Board::InputChange(BoardChange& change)
 			return false;
 		}
 		// Sprawdzanie, czy pionek ruszy siê na dozwolone pole
-		//TODO: Uwzglêdniæ to ¿e pionek mo¿e siê cofaæ tylko gdy mo¿e zdobyæ punkt. 
 		if (change.nextCol >= 0 && change.nextCol < 9 && 
 			(change.nextRow == (change.prevRow + 1) || change.nextRow == (change.prevRow - 1)) &&
 			(change.nextCol == (change.prevCol + 1) || change.nextCol == (change.prevCol - 1)))
@@ -229,7 +228,6 @@ void Board::Save(char* fname)
 
 void Board::Load(char* fname)
 {
-	//TODO: Uzwglêdniæ brak pliku. 
 	FILE* file;
 	file = fopen(fname, "r");
 	if (file == NULL)

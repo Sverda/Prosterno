@@ -30,8 +30,8 @@ public:
 template <typename P, typename E>
 Game<P, E>::Game()
 {
-	player = new P("Gracz", Field::Friend, board);
-	enemy = new E("Przeciwnik", Field::Enemy, board);
+	player = new P(Field::Friend, board);
+	enemy = new E(Field::Enemy, board);
 	srand((int)time(NULL));	// Losowanie dla AI
 	printStartInstruction();
 	//board.PrintBoard();

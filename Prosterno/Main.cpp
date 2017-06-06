@@ -28,11 +28,13 @@ int main()
 	printf("Wczytac wczesniej zapisana gre? \n");
 	printf("1. Tak\n");
 	printf("2. Nie\n");
+	printf("Podaj numer: ");
 	scanf("%d", &choice);
 	if (choice == 1)
 	{
 		game->LoadBoard();
 	}
+
 	while (!game->CheckEndgame())
 	{
 		game->PlayRound();

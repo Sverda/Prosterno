@@ -56,7 +56,6 @@ void Player::MakeMove()
 		}
 
 		// Cofanie siê pionka tylko w wyj¹tkowej sytuacji
-		//TODO: Uzwglêdniæ cofanie siê dla gracza górnego i dolnego
 		if (((nextRow == (prevRow + 1) && mark == Field::Friend) ||
 			(nextRow == (prevRow - 1) && mark == Field::Enemy)))
 		{
@@ -84,5 +83,5 @@ void Player::MakeMove()
 			board[prevRow][prevCol] = mark;
 			board[nextRow][nextCol] = Field::Empty;
 		}
-	} while (loop || !boardManager.InputChange(BoardChange(prevRow, prevCol, nextCol, nextCol, mark)));
+	} while (loop || !boardManager.InputChange(BoardChange(prevRow, prevCol, nextRow, nextCol, mark)));
 }

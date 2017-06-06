@@ -59,9 +59,4 @@ void AI::MakeMove()
 		nextCol += prevCol;
 	} while (!boardManager.InputChange(BoardChange(prevRow, prevCol, nextRow, nextCol, mark)));
 	printf("Wykonano ruch: %d%c %d%c\n", prevRow, prevCol + 'a', nextRow, nextCol + 'a');
-	//TODO: Bug. Pionki wychodz¹ poza tablicê
-	/*if (nextCol + 'a' >= 'j' || nextCol + 'a' <= 'j')
-	{
-		return;
-	}*/
 }
