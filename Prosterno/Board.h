@@ -3,7 +3,7 @@
 #define BOARD_ROWS 8
 #define BOARD_COLS 9
 #define SAVEFILE "save.txt"
-#define TEMPSAVE "tempsave.txt"	/*plik do którego jest zapisywany co rundê stan gry*/
+//#define TEMPSAVE "tempsave.txt"	/*plik do którego jest zapisywany co rundê stan gry*/
 #define MOVES 20 /*iloœæ ruchów przechowywanych w buforze moves*/
 
 class Board
