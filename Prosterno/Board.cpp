@@ -238,13 +238,40 @@ void Board::Load(char* fname)
 	{
 		return;
 	}
-	int temp;
+	// Kontrola poprawnoœci struktury pliku
+	int ffield;
+	char fblank;
+	bool corupt = false;
 	for (int row = 0; row < BOARD_ROWS; row++)
 	{
 		for (int col = 0; col < BOARD_COLS; col++)
 		{
-			fscanf(file, "%d ", &temp);
-			board[row][col] = (Field)temp;
+			if (fscanf(file, "%d%c", &ffield, &fblank) != 2 || 
+				((Field)ffield != Field::Empty && (Field)ffield != Field::Enemy && (Field)ffield != Field::Friend) || 
+				fblank != ' ')
+			{
+				corupt = true;
+			}
+		}
+		if (fscanf(file, "%c", &fblank) != 1 || fblank != '\n')
+		{
+			corupt = true;
+		}
+	}
+	if (corupt)
+	{
+		printf("Proba odczytu nie powiodla sie. \nGra uruchomi sie z czysta plansza. \n");
+		fclose(file);
+		return;
+	}
+	rewind(file);
+	// Odczyt sprawdzonego pliku
+	for (int row = 0; row < BOARD_ROWS; row++)
+	{
+		for (int col = 0; col < BOARD_COLS; col++)
+		{
+			fscanf(file, "%d ", &ffield);
+			board[row][col] = (Field)ffield;
 		}
 		fscanf(file, "\n");
 	}
