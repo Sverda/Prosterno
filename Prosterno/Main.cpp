@@ -12,7 +12,11 @@ int main()
 	cout << "3. Komputer vs Komputer" << endl;
 	int choice;
 	cout << "Podaj numer trybu: ";
-	cin >> choice;
+	while (scanf("%d", &choice) != 1 || choice < 1 || choice > 3)
+	{
+		printf("Brak podanej opcji. \n");
+		cout << "Podaj numer trybu: ";
+	}
 	//scanf("%d", &choice);
 	switch (choice)
 	{
@@ -30,8 +34,11 @@ int main()
 	cout << "1. Tak" << endl;
 	cout << "2. Nie" << endl;
 	cout << "Podaj numer: ";
-	cin >> choice;
-	//scanf("%d", &choice);
+	while (scanf("%d", &choice) != 1 || choice < 1 || choice > 2)
+	{
+		printf("Brak podanej opcji. \n");
+		cout << "Podaj numer: ";
+	}
 	if (choice == 1)
 	{
 		game->LoadBoard();

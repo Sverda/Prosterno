@@ -29,12 +29,16 @@ void Player::MakeMove()
 	do
 	{
 		loop = false;
-		cout << "Podaj ruch: ";
-
-		//TODO: cin
-		cin >> figure;
-		cin >> destination;
-		//scanf("%s %s", figure, destination);
+		cout << "Wskaz pionka: ";
+		while (scanf("%s", figure) != 1)
+		{
+			printf("Prosze podac poprawne wartosci. \n");
+		}
+		cout << "Wskaz pole: ";
+		while (scanf("%s", destination) != 1)
+		{
+			printf("Prosze podac poprawne wartosci. \n");
+		}
 		// Zapisywanie gry
 		if (figure[0] == 's' &&
 			figure[1] == 's' &&
