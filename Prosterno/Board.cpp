@@ -117,7 +117,7 @@ bool Board::InputChange(BoardChange& change)
 			(change.nextRow == (change.prevRow + 1) || change.nextRow == (change.prevRow - 1)) &&
 			(change.nextCol == (change.prevCol + 1) || change.nextCol == (change.prevCol - 1)))
 		{
-			Save(TEMPSAVE);
+			//Save(TEMPSAVE);
 			int nulls;	// iloœæ nie poruszonych figur
 			BoardChange* moves[MOVES];
 			// Ruch pionka
